@@ -1,0 +1,84 @@
+{
+  "name": "npm-init",
+  "description": "The npm init starter for Node.js project",
+  "license": "MIT",
+  "author": "kpman <s92f002@gmail.com>",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "npm run clean && babel src -d lib --ignore __tests__",
+    "clean": "rimraf lib",
+    "precommit": "lint-staged",
+    "lint": "eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "prepublish": "npm run build",
+    "test": "npm run lint && npm run testonly",
+    "testonly": "jest --detectOpenHandles",
+    "testonly:cov": "jest --coverage --runInBand --forceExit --detectOpenHandles",
+    "testonly:watch": "jest --runInBand --watch --detectOpenHandles",
+    "preversion": "npm run test"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.51",
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.0.1",
+    "eslint": "^5.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-yoctol-base": "^0.15.1",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
+    "jest": "^23.1.0",
+    "jest-junit": "^5.1.0",
+    "lint-staged": "^7.0.2",
+    "prettier": "^1.13.5",
+    "prettier-package-json": "^1.6.0",
+    "rimraf": "^2.6.2"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "transformIgnorePatterns": [
+      "node_modules",
+      "lib"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "lib"
+    ],
+    "timers": "fake",
+    "resetModules": true,
+    "resetMocks": true,
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "lint-staged": {
+    "*.md": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{json, babelrc}": [
+      "prettier --parser json-stringify --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*package.json": [
+      "prettier-package-json --write",
+      "prettier --parser json-stringify --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
+  }
+}
